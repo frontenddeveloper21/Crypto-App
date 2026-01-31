@@ -1,0 +1,7 @@
+body {
+  background-color: #11011E;
+  color: var(--Font-Color-Light-Title, #ECF1F0);
+  padding: 20px;
+  width: 100%;
+  font-family: "Raleway", sans-serif;
+}

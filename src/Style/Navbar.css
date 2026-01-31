@@ -1,0 +1,47 @@
+.navbar_css {
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.40) inset;
+    backdrop-filter: blur(15px);
+    display: flex;
+    height: 90px;
+    padding: 0 90px;
+    justify-content: center;
+    align-items: center;
+    gap: 199px;
+}
+
+.crypto_text {
+    color: #FFF;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.cap_text {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.navbar__page {
+    color: #ECF1F0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.login_btn {
+    border-radius: 10px;
+    background:  linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.00) 100%), #366FFF;;
+    padding: 13px 24px;
+    color: #FFF;
+text-align: center;
+font-size: 16px;
+font-weight: 600;
+}
+
+.footer_icon {
+    width: 24px;
+height: 24px;
+flex-shrink: 0;
+color: #FFF;
+}
