@@ -1,0 +1,200 @@
+
+import React, { useState, useEffect } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { FaCheckCircle, FaDotCircle, FaPauseCircle, FaTimesCircle } from "react-icons/fa";
+import { FiSearch } from "react-icons/fi";
+import Select from "react-select";
+
+// Sample data for each category
+const HighRiskData = {
+    assigned: [
+        { id: 1, username: "John Doe", lastUpdated: "25/09/2025", email: "frontenddeveloper@gmail.com", phone: "6382354012", status: "Assigned", manager: "manager" },
+        { id: 2, username: "Alice Johnson", lastUpdated: "23/09/2025", email: "frontenddeveloper@gmail.com", phone: "6382354012", status: "Assigned", manager: "manager" },
+    ],
+    unassigned: [
+        { id: 3, username: "Bob Smith", lastUpdated: "24/09/2025", email: "frontenddeveloper@gmail.com", phone: "6382354012", status: "Unassigned", manager: "manager" },
+    ],
+    activated: [
+        { id: 4, username: "Charlie Brown", lastUpdated: "22/09/2025", email: "frontenddeveloper@gmail.com", phone: "6382354012", status: "Activated", manager: "manager" },
+    ],
+    pending: [
+        { id: 5, username: "Diana Prince", lastUpdated: "21/09/2025", email: "frontenddeveloper@gmail.com", phone: "6382354012", status: "Pending", manager: "manager" },
+    ],
+    submitted: [
+        { id: 6, username: "Eve Adams", lastUpdated: "20/09/2025", email: "frontenddeveloper@gmail.com", phone: "6382354012", status: "Submitted", manager: "manager" },
+    ],
+    rejected: [
+        { id: 6, username: "Eve Adams", lastUpdated: "20/09/2025", email: "frontenddeveloper@gmail.com", phone: "6382354012", status: "Rejected", manager: "manager" },
+    ],
+};
+
+const statusColors = {
+    Assigned: "text-blue-800",
+    Unassigned: "text-gray-700",
+    Activated: "text-green-800",
+    Pending: "text-yellow-700",
+    Submitted: "text-purple-800",
+    Rejected: "text-red-800",
+};
+
+const options = [
+    { value: "assigned", label: "Assigned" },
+    { value: "unassigned", label: "Unassigned" },
+    { value: "activated", label: "Activated" },
+    { value: "pending", label: "Pending" },
+    { value: "submitted", label: "Submitted" },
+    { value: "rejected", label: "Rejected" },
+];
+
+const customStyles = {
+    option: (provided, state) => ({
+        ...provided,
+        backgroundColor: state.isSelected
+            ? "#1A3B5D"       // ✅ Active option
+            : state.isFocused
+                ? "#D2E9EA"       // ✅ Hover background
+                : "#fff",         // Default background
+        color: state.isSelected ? "#fff" : "#000", // White text for active
+        padding: 10,
+    }),
+    control: (provided) => ({
+        ...provided,
+        borderColor: "#afadad",
+        boxShadow: "none",
+        "&:hover": { borderColor: "#afadad" },
+    }),
+    singleValue: (provided) => ({
+        ...provided,
+        color: "#1A3B5D",
+    }),
+};
+
+const HighRisk = () => {
+    const storedCategory = localStorage.getItem("selectedCategory") || "assigned";
+    const [search, setSearch] = useState("");
+    const [selectedOption, setSelectedOption] = useState(
+        options.find((opt) => opt.value === storedCategory)
+    );
+
+    useEffect(() => {
+        if (selectedOption) {
+            localStorage.setItem("selectedCategory", selectedOption.value);
+        }
+    }, [selectedOption]);
+
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile && selectedFile.type === "application/pdf") {
+            setFile(selectedFile);
+            alert(`File "${selectedFile.name}" uploaded successfully!`);
+        } else {
+            alert("Please upload a PDF file only.");
+            e.target.value = null; // reset input
+        }
+    };
+
+    return (
+        <div>
+            <h2 className="text-[#1A3B5D] text-[16px] font-semibold mb-4">
+                HighRisk Dashboard
+            </h2>
+
+            <div className="flex justify-between">
+                <div className="w-[250px]">
+                    <Select
+                        className="text-sm cursor-pointer"
+                        value={selectedOption}
+                        onChange={setSelectedOption}
+                        options={options}
+                        placeholder="Select Category"
+                        isSearchable={false}
+                        styles={customStyles}
+                    />
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <div className="search__container flex items-center px-4">
+                        <input
+                            type="text"
+                            placeholder="Search Business Name / Wallet Address"
+                            className="border rounded py-1"
+                        />
+                        {search && (
+                            <button
+                                className="text-white hover:text-gray-300 focus:outline-none"
+                            >
+                                <AiOutlineClose size={20} />
+                            </button>
+                        )}
+                        <button
+                            className="ml-2"
+                        >
+                            <FiSearch />
+                        </button>
+                    </div>
+                    <label className="bg-[#1A3B5D] text-white px-4 py-2 text-sm rounded-md cursor-pointer hover:bg-[#16314a] transition">
+                        Upload KYC
+                        <input
+                            type="file"
+                            accept="application/pdf"
+                            onChange={handleFileChange}
+                            className="hidden"
+                        />
+                    </label>
+                </div>
+            </div>
+
+            <div className="table__container mt-5">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Created At</th>
+                            <th>Company Name</th>
+                            <th>Email</th>
+                            <th>Mobile Number</th>
+                            <th>KYC Status</th>
+                            <th>AC Manager</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {selectedOption &&
+                            HighRiskData[selectedOption.value].map((user, index) => (
+                                <tr
+                                    key={user.id}
+                                >
+                                    <td>{index + 1}</td>
+                                    <td>{user.lastUpdated}</td>
+                                    <td>{user.username}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user?.phone}</td>
+                                    <td>
+                                        <span
+                                            className={`px-5 py-2 rounded-md text-sm font-semibold ${statusColors[user.status]}`}
+                                        >
+                                            <div className="flex items-center justify-center gap-1"><FaDotCircle />{user.status}</div>
+                                        </span>
+                                    </td>
+                                    <td>{user?.manager}</td>
+                                    <td>
+                                        <div className='flex items-center justify-center gap-2'>
+
+
+                                            <span className='Faactivate grid place-content-center'> <FaCheckCircle /> </span>
+                                            <span className='FaTimesCircle grid place-content-center'> <FaTimesCircle /> </span>
+                                            <span className='FaCheckCircle grid place-content-center'> <FaPauseCircle /> </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
+};
+
+export default HighRisk;

@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color:#FAFAFA ;
+}
+
+button {
+  cursor: pointer;
+}
+
+.error__msg{
+  font-size: 14px;
+  color: rgb(255, 0, 0);
+  font-weight: 500;
+  display: block;
+}
+
+.custom-multiselect {
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.custom-multiselect .rmsc__multi-item {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.custom-multiselect .rmsc__multi-item span {
+  color: #fff !important;
+}
+
+.custom-multiselect .rmsc__option:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+}
